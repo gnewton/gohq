@@ -16,15 +16,15 @@ const EST = " EST"
 
 type OutageReport struct {
 	Stamp        string `sql:"size:14" gorm:"primary_key"`
-	TimeAcquired time.Time
+	TimeAcquired *time.Time
 	Outages      []*Outage `sql:"-"`
 	JsonGz       []byte
 }
 
 type Outage struct {
-	ID              uint   `gorm:"primary_key"`
-	ReportID        string `sql:"size:14" `
-	ReportStamp     time.Time
+	ID       uint   `gorm:"primary_key"`
+	ReportID string `sql:"size:14" `
+	//ReportStamp     time.Time
 	ClientsEffected int
 	TimeStart       time.Time
 	TimeEndEstimate time.Time
@@ -38,7 +38,7 @@ type Outage struct {
 	Other4          string `sql:"size:32"`
 }
 
-func makeReport(jsonStream []byte, reportStamp string) (*OutageReport, error) {
+func makeReport(jsonStream []byte, reportStamp string, timeAcquired *time.Time) (*OutageReport, error) {
 	fmt.Println(reportStamp)
 	fmt.Println(string(jsonStream))
 
@@ -51,7 +51,7 @@ func makeReport(jsonStream []byte, reportStamp string) (*OutageReport, error) {
 	}
 	report := new(OutageReport)
 	report.Stamp = reportStamp
-	report.TimeAcquired = time.Now()
+	report.TimeAcquired = timeAcquired
 
 	for i, _ := range o.Outages {
 		newOutage, err := makeOutage(o.Outages[i], i)
@@ -62,7 +62,7 @@ func makeReport(jsonStream []byte, reportStamp string) (*OutageReport, error) {
 		report.Outages = append(report.Outages, newOutage)
 
 		newOutage.ReportID = reportStamp
-		newOutage.ReportStamp, err = time.Parse(stampForm, reportStamp+EST)
+		//newOutage.ReportStamp, err = time.Parse(stampForm, reportStamp+EST)
 		if err != nil {
 			return nil, err
 		}

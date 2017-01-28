@@ -5,6 +5,7 @@ import (
 	"log"
 	"net/http"
 	"strings"
+	"time"
 )
 
 func getStamp() (string, error) {
@@ -23,18 +24,22 @@ func getStamp() (string, error) {
 
 }
 
-func getOutages(stamp string) ([]byte, error) {
+func getOutages(stamp string) ([]byte, *time.Time, error) {
 	url := "http://poweroutages.hydroquebec.com/pannes/donnees/v3_0/bismarkers" + stamp + ".json"
 	log.Println(url)
 	resp, err := http.Get(url)
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
 	defer resp.Body.Close()
+
+	log.Println(resp.Header)
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
-	return body, nil
+
+	ts := time.Now()
+	return body, &ts, nil
 
 }

@@ -24,7 +24,7 @@ func dbOpen(dbFileName string) (*gorm.DB, error) {
 		log.Println(err)
 		return nil, err
 	}
-	log.Println("Opening db file: ", dbFileName)
+	//log.Println("Opening db file: ", dbFileName)
 
 	db.DB()
 	db.DB().Ping()
@@ -67,7 +67,7 @@ func dbInit(dbFile string) (*gorm.DB, error) {
 		log.Println(err)
 		return nil, err
 	}
-	log.Printf("%v\n", *db)
+	//log.Printf("%v\n", *db)
 
 	if !db.HasTable(&OutageReport{}) {
 		db.CreateTable(&OutageReport{})

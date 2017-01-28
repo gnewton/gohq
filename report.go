@@ -3,7 +3,6 @@ package main
 import (
 	"encoding/json"
 	"errors"
-	"fmt"
 	"log"
 	"strconv"
 	"strings"
@@ -39,8 +38,6 @@ type Outage struct {
 }
 
 func makeReport(jsonStream []byte, reportStamp string, timeAcquired *time.Time) (*OutageReport, error) {
-	fmt.Println(reportStamp)
-	fmt.Println(string(jsonStream))
 
 	var o OutagesJson
 
@@ -66,9 +63,6 @@ func makeReport(jsonStream []byte, reportStamp string, timeAcquired *time.Time) 
 		if err != nil {
 			return nil, err
 		}
-
-		fmt.Println("\n")
-		fmt.Println(newOutage)
 
 	}
 	return report, nil

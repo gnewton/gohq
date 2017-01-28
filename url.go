@@ -2,7 +2,6 @@ package main
 
 import (
 	"io/ioutil"
-	"log"
 	"net/http"
 	"strings"
 	"time"
@@ -11,7 +10,7 @@ import (
 func getStamp() (string, error) {
 	url := "http://poweroutages.hydroquebec.com/pannes/donnees/v3_0/bisversion.json"
 	resp, err := http.Get(url)
-	log.Println(url)
+	//log.Println(url)
 	if err != nil {
 		return "", err
 	}
@@ -26,14 +25,14 @@ func getStamp() (string, error) {
 
 func getOutages(stamp string) ([]byte, *time.Time, error) {
 	url := "http://poweroutages.hydroquebec.com/pannes/donnees/v3_0/bismarkers" + stamp + ".json"
-	log.Println(url)
+	//log.Println(url)
 	resp, err := http.Get(url)
 	if err != nil {
 		return nil, nil, err
 	}
 	defer resp.Body.Close()
 
-	log.Println(resp.Header)
+	//log.Println(resp.Header)
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
 		return nil, nil, err

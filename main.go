@@ -25,6 +25,7 @@ func main() {
 
 	report, err := makeReport(outages, stamp, timeAcquired)
 	if err != nil {
+		log.Println(string(outages))
 		log.Fatal(err)
 	}
 

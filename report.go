@@ -82,15 +82,20 @@ func makeOutage(d []interface{}, orderInReport int) (*Outage, error) {
 		var err error
 		outage.TimeStart, err = time.Parse(longForm, timeStart+EST)
 		if err != nil {
+			log.Println(timeStart)
 			log.Println(err)
 		}
 	}
 
 	if timeEndEstimate, ok := d[TimeEndEstimate].(string); ok {
-		var err error
-		outage.TimeEndEstimate, err = time.Parse(longForm, timeEndEstimate+EST)
-		if err != nil {
-			log.Println(err)
+		if timeEndEstimate != "" {
+			var err error
+			outage.TimeEndEstimate, err = time.Parse(longForm, timeEndEstimate+EST)
+			if err != nil {
+				log.Println("444")
+				log.Println(timeEndEstimate)
+				log.Println(err)
+			}
 		}
 	}
 

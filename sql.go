@@ -10,12 +10,15 @@ import (
 
 func persist(report *OutageReport, db *gorm.DB) {
 
-	db.Create(report)
+	mostRecentReport := mostRecentReport(db)
 
 	for i, _ := range report.Outages {
 		outage := report.Outages[i]
+		findOutageEvent(outage, mostRecentReport, db)
 		db.Create(outage)
 	}
+
+	db.Create(report)
 }
 
 func dbOpen(dbFileName string) (*gorm.DB, error) {

@@ -12,9 +12,6 @@ func findOutageEvent(outage *Outage, mostRecentReport *OutageReport, db *gorm.DB
 func mostRecentReport(db *gorm.DB) *OutageReport {
 	var report OutageReport
 	db.Last(&report)
-	//log.Println("000")
-	//log.Println(report)
-	//log.Println("111")
 	if &report == nil {
 		return nil
 	}
@@ -23,5 +20,10 @@ func mostRecentReport(db *gorm.DB) *OutageReport {
 }
 
 func populateReportOutages(report *OutageReport, db *gorm.DB) {
-
+	var outages []*Outage
+	db.Where("report_id = ?", report.Stamp).Find(&outages)
+	for i, _ := range outages {
+		log.Println(*outages[i])
+	}
+	report.Outages = outages
 }

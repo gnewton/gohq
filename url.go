@@ -38,7 +38,7 @@ func getOutages(stamp string) ([]byte, *time.Time, error) {
 		return nil, nil, err
 	}
 
-	ts := time.Now()
+	ts := time.Now().UTC()
 	return body, &ts, nil
 
 }

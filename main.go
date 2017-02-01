@@ -5,7 +5,7 @@ import (
 )
 
 func main() {
-
+	log.SetFlags(log.LstdFlags | log.Lshortfile)
 	stamp, err := getStamp()
 	if err != nil {
 		log.Fatal(err)

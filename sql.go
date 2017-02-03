@@ -14,7 +14,12 @@ func persist(report *OutageReport, db *gorm.DB) {
 
 	for i, _ := range report.Outages {
 		outage := report.Outages[i]
-		findOutageEvent(outage, mostRecentReport, db)
+		id := findOutageEvent(outage, mostRecentReport, db)
+		if id == 0 {
+			outage.EventID = i + 1
+		} else {
+			outage.EventID = id
+		}
 		db.Create(outage)
 	}
 

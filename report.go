@@ -22,7 +22,7 @@ type OutageReport struct {
 
 type Outage struct {
 	ID       uint   `gorm:"primary_key"`
-	EventID  uint   `gorm:"index"`
+	EventID  int    `gorm:"index"`
 	ReportID string `sql:"size:14;index" `
 	//ReportStamp     time.Time
 	ClientsEffected int

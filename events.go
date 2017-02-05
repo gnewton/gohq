@@ -11,12 +11,7 @@ func findOutageEvent(outage *Outage, mostRecentReport *OutageReport, db *gorm.DB
 	}
 	for i, _ := range mostRecentReport.Outages {
 		prevOutage := mostRecentReport.Outages[i]
-		log.Println(prevOutage.ID, prevOutage.EventID)
-		log.Println(outage.TimeStart, outage.Latitude, outage.Longitude)
-		log.Println(prevOutage.TimeStart, prevOutage.Latitude, prevOutage.Longitude)
-
 		if matches(outage, prevOutage) {
-			log.Println("++++++++++++++++++++++++++")
 			return prevOutage.EventID
 		}
 	}
@@ -24,7 +19,6 @@ func findOutageEvent(outage *Outage, mostRecentReport *OutageReport, db *gorm.DB
 }
 
 func getNewEventID(db *gorm.DB) int {
-	log.Println("")
 	rows, err := db.Table("outages").Select("max(event_id)").Rows()
 	defer func() {
 		err := rows.Close()
@@ -33,26 +27,22 @@ func getNewEventID(db *gorm.DB) int {
 		}
 	}()
 
-	log.Println("")
 	if err != nil {
 		log.Fatal(err)
 		return 1
 	}
-	log.Println("")
 	if rows == nil {
 		return 1
 	}
 
 	var n int
 	for rows.Next() {
-		log.Println("")
 		err = rows.Scan(&n)
 		if err != nil {
 			log.Println(err)
 		}
 		break
 	}
-	log.Println("")
 	return n + 1
 }
 
@@ -67,7 +57,6 @@ func mostRecentReport(db *gorm.DB) *OutageReport {
 		//log.Printf("%+v\n", err)
 		//log.Println(err)
 	}
-	log.Println("count=", count)
 	if count == 0 {
 		return nil
 	}

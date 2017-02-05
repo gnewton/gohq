@@ -39,6 +39,11 @@ func getOutages(stamp string) ([]byte, *time.Time, error) {
 	}
 
 	ts := time.Now().UTC()
+	location, e := time.LoadLocation("EST")
+	if e != nil {
+		return nil, nil, e
+	}
+	ts = ts.In(location)
 	return body, &ts, nil
 
 }

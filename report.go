@@ -82,7 +82,7 @@ func makeOutage(d []interface{}, orderInReport int) (*Outage, error) {
 	if timeStart, ok := d[TimeStart].(string); ok {
 		var err error
 		outage.TimeStart, err = time.Parse(longForm, timeStart+EST)
-		outage.TimeStart = outage.TimeStart.UTC()
+		//outage.TimeStart = outage.TimeStart.UTC()
 		if err != nil {
 			log.Println(timeStart)
 			log.Println(err)
@@ -93,7 +93,7 @@ func makeOutage(d []interface{}, orderInReport int) (*Outage, error) {
 		if timeEndEstimate != "" {
 			var err error
 			outage.TimeEndEstimate, err = time.Parse(longForm, timeEndEstimate+EST)
-			outage.TimeEndEstimate = outage.TimeEndEstimate.UTC()
+			//outage.TimeEndEstimate = outage.TimeEndEstimate.UTC()
 			if err != nil {
 				log.Println("444")
 				log.Println(timeEndEstimate)

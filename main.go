@@ -11,7 +11,11 @@ func main() {
 		log.Fatal(err)
 	}
 
+	//Prod
 	db, err := dbInit("/home/gnewton/gocode/src/github.com/gnewton/gohq/data/hq_slite3.db")
+
+	// Test
+	//db, err := dbInit("hq_slite3.db")
 	if err != nil {
 		log.Fatal(err)
 	}
